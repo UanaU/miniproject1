@@ -1,0 +1,30 @@
+:root {
+  --bg: #f5f6fa;
+  --card-bg: #ffffff;
+  --text: #1f2430;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --primary: #4f7cff;
+  --primary-dark: #3860e0;
+  --danger: #e0554f;
+  --warn-bg: #fff7e6;
+  --warn-text: #9a6700;
+  --chart-bar-color: #4f7cff;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
