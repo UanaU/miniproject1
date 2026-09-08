@@ -9,8 +9,8 @@
     },
     {
       "name": "react-frontend",
-      "runtimeExecutable": "C:\\Users\\SG\\Desktop\\miniproject1\\run-frontend.cmd",
-      "runtimeArgs": [],
+      "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+      "runtimeArgs": ["frontend/node_modules/vite/bin/vite.js", "frontend", "--config", "frontend/vite.config.js", "--port", "3000"],
       "port": 3000
     }
   ]

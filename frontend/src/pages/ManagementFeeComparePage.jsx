@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { fetchSummary } from '../api/fees'
 import ComparisonChart from '../components/ComparisonChart'
+import AnalysisCard from '../components/AnalysisCard'
 
 function toYearMonth(inputValue) {
   return inputValue.replace('-', '') + '01'
@@ -126,6 +127,8 @@ export default function ManagementFeeComparePage() {
           </div>
         )
       })()}
+
+      {summary && !loading && !error && <AnalysisCard summary={summary} />}
     </div>
   )
 }
