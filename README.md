@@ -59,8 +59,20 @@ npm run dev
 
 `user0001` ~ `user1000` / 비밀번호 `pw10001` ~ `pw11000`
 
+## 화면 구성
+
+- **로그인** (`/login`) — 아이디/비밀번호 로그인, 하단에 회원가입 링크
+- **회원가입** (`/signup`) — 아이디/비밀번호/이름/연락처/동/호수/평수/가구원수 입력 후 가입과 동시에 자동 로그인
+- **마이페이지** (`/mypage`) — 내 정보 조회, "정보 수정" 버튼으로 수정 화면 이동
+- **마이페이지 수정** (`/mypage/edit`) — 이름/연락처/동/호수/평수/가구원수 수정 (아이디는 변경 불가)
+- **관리비 조회** (`/fees`) — 청구년월 선택, 항목별 관리비, 4종 비교 차트, AI 원인분석
+
+로그인 후에는 화면 우측 상단에 **마이페이지 / 관리비** 메뉴와 **로그아웃** 버튼이 항상 표시되며,
+로그아웃 시 로그인 화면으로 이동한다.
+
 ## API
 
-- `POST /api/accounts/login/`, `POST /api/accounts/logout/`, `GET /api/accounts/me/`
+- `POST /api/accounts/login/`, `POST /api/accounts/logout/`, `POST /api/accounts/signup/`
+- `GET /api/accounts/me/` (내 정보 조회), `PATCH /api/accounts/me/` (내 정보 수정)
 - `GET /api/managementfee/summary?year_month=YYYYMMDD`
 - `GET /api/managementfee/analysis?year_month=YYYYMMDD`

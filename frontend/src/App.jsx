@@ -1,7 +1,10 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
+import AppHeader from './components/AppHeader'
 import LoginPage from './pages/LoginPage'
+import SignupPage from './pages/SignupPage'
 import MyPage from './pages/MyPage'
+import MyPageEdit from './pages/MyPageEdit'
 import FeeInquiryPage from './pages/FeeInquiryPage'
 import './App.css'
 
@@ -9,7 +12,12 @@ function ProtectedRoute({ children }) {
   const { member, loading } = useAuth()
   if (loading) return <div className="page">불러오는 중...</div>
   if (!member) return <Navigate to="/login" replace />
-  return children
+  return (
+    <>
+      <AppHeader />
+      {children}
+    </>
+  )
 }
 
 export default function App() {
@@ -22,10 +30,22 @@ export default function App() {
         element={loading ? null : member ? <Navigate to="/mypage" replace /> : <LoginPage />}
       />
       <Route
+        path="/signup"
+        element={loading ? null : member ? <Navigate to="/mypage" replace /> : <SignupPage />}
+      />
+      <Route
         path="/mypage"
         element={
           <ProtectedRoute>
             <MyPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/mypage/edit"
+        element={
+          <ProtectedRoute>
+            <MyPageEdit />
           </ProtectedRoute>
         }
       />

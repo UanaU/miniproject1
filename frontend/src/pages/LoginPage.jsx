@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function LoginPage() {
@@ -48,6 +48,7 @@ export default function LoginPage() {
             {submitting ? '로그인 중...' : '로그인'}
           </button>
         </form>
+        <Link to="/signup" className="signup-link">회원가입</Link>
         <p className="hint">테스트 계정: user0001~user1000 / pw10001~pw11000</p>
       </div>
     </div>

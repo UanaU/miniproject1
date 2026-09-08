@@ -1,3 +1,35 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.app-title {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.app-nav-link.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
 .page {
   max-width: 960px;
   margin: 0 auto;
@@ -106,6 +138,56 @@ button.secondary {
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.9rem;
+}
+
+.signup-link {
+  display: block;
+  margin-top: 16px;
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.signup-card {
+  width: 380px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.edit-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.edit-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-link {
+  display: inline-block;
+  margin-top: 16px;
 }
 
 .hint {

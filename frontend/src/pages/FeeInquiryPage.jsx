@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { fetchSummary } from '../api/fees'
 import FeeBreakdownTable from '../components/FeeBreakdownTable'
 import ComparisonChart from '../components/ComparisonChart'
@@ -50,7 +49,6 @@ export default function FeeInquiryPage() {
     <div className="page">
       <header className="page-header">
         <h1>관리비 조회</h1>
-        <Link to="/mypage" className="secondary-link">← 마이페이지</Link>
       </header>
 
       <label className="month-picker">

@@ -1,14 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function MyPage() {
-  const { member, logout } = useAuth()
-  const navigate = useNavigate()
-
-  async function handleLogout() {
-    await logout()
-    navigate('/login')
-  }
+  const { member } = useAuth()
 
   if (!member) return null
 
@@ -16,7 +10,6 @@ export default function MyPage() {
     <div className="page">
       <header className="page-header">
         <h1>마이페이지</h1>
-        <button className="secondary" onClick={handleLogout}>로그아웃</button>
       </header>
 
       <div className="card">
@@ -34,6 +27,7 @@ export default function MyPage() {
           <dt>가구원수</dt>
           <dd>{member.가구원수}명</dd>
         </dl>
+        <Link className="secondary-link edit-link" to="/mypage/edit">정보 수정 →</Link>
       </div>
 
       <Link className="primary-link" to="/fees">관리비 조회하러 가기 →</Link>
