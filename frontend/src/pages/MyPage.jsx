@@ -27,10 +27,10 @@ export default function MyPage() {
           <dt>가구원수</dt>
           <dd>{member.가구원수}명</dd>
         </dl>
-        <Link className="secondary-link edit-link" to="/mypage/edit">정보 수정 →</Link>
+        <div className="card-actions">
+          <Link className="primary-link" to="/mypage/edit">정보 수정 →</Link>
+        </div>
       </div>
-
-      <Link className="primary-link" to="/fees">관리비 조회하러 가기 →</Link>
     </div>
   )
 }
