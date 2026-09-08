@@ -32,7 +32,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit}>
           <label>
             아이디
-            <input value={id} onChange={(e) => setId(e.target.value)} placeholder="user0001" required />
+            <input value={id} onChange={(e) => setId(e.target.value)} placeholder="id" required />
           </label>
           <label>
             비밀번호
@@ -40,7 +40,7 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="pw10001"
+              placeholder="pw"
               required
             />
           </label>

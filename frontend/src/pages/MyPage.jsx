@@ -28,7 +28,7 @@ export default function MyPage() {
           <dd>{member.가구원수}명</dd>
         </dl>
         <div className="card-actions">
-          <Link className="primary-link" to="/mypage/edit">정보 수정 →</Link>
+          <Link className="primary-link" to="/mypage/edit">정보 수정</Link>
         </div>
       </div>
     </div>

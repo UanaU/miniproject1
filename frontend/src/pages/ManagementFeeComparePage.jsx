@@ -15,11 +15,12 @@ const FIELD_OPTIONS = [
 ]
 
 // 당월과 함께 한 그래프에 표시할 4개 비교 기준 (summary 응답 키 → 막대 라벨)
+// kind: 'time' = 내 과거와 비교(증가/감소), 'peer' = 이웃 평균과 비교(상회/하회)
 const COMPARISON_DEFS = [
-  { key: '전월', label: '전월' },
-  { key: '작년동월', label: '전년 동월' },
-  { key: '같은평수평균', label: '동일 평수 평균' },
-  { key: '같은평수_가구원수평균', label: '동일 평수+가구원수 평균' },
+  { key: '전월', label: '전월', kind: 'time' },
+  { key: '작년동월', label: '전년 동월', kind: 'time' },
+  { key: '같은평수평균', label: '동일 평수 평균', kind: 'peer' },
+  { key: '같은평수_가구원수평균', label: '동일 평수+동일 가구원수 평균', kind: 'peer' },
 ]
 
 export default function ManagementFeeComparePage() {
@@ -57,7 +58,7 @@ export default function ManagementFeeComparePage() {
 
   const 기준 = summary?.같은평수_가구원수평균?.기준
   const comparisons = summary
-    ? COMPARISON_DEFS.map((d) => ({ label: d.label, period: summary[d.key] }))
+    ? COMPARISON_DEFS.map((d) => ({ label: d.label, kind: d.kind, period: summary[d.key] }))
     : []
 
   return (

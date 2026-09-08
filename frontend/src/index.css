@@ -54,6 +54,8 @@
 
 html {
   font-size: 16px;
+  /* 페이지마다 세로 스크롤바 유무가 달라 헤더 중앙 정렬이 어긋나는 것 방지 */
+  scrollbar-gutter: stable;
 }
 
 body {
