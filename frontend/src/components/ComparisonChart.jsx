@@ -22,7 +22,7 @@ function computeBarDomain(values) {
   return [lower, upper > lower ? upper : lower + step]
 }
 
-// 당월 + 4개 비교 기준(전월 / 전년 동월 / 동일 평수 평균 / 동일 평수+가구원수 평균)을
+// 당월 + 4개 비교 기준(전월 / 전년 동월 / 동일 평수 평균 / 동일 평수+동일 가구원수 평균)을
 // 하나의 막대그래프에 함께 표시한다. 비교 데이터가 없는 기준의 막대는 자동으로 빠진다.
 // 색 규칙: 내 관리비(당월·전월·전년 동월)는 네이비 계열, 이웃 평균은 골드 계열.
 const BAR_COLORS = {
@@ -30,7 +30,7 @@ const BAR_COLORS = {
   전월: '#6b7fb8',
   '전년 동월': '#a1b2d6',
   '동일 평수 평균': '#b48a5a',
-  '동일 평수+가구원수 평균': '#8a6a3d',
+  '동일 평수+동일 가구원수 평균': '#8a6a3d',
 }
 const FALLBACK_COLORS = ['#1e3a8a', '#6b7fb8', '#a1b2d6', '#b48a5a', '#8a6a3d']
 
@@ -40,7 +40,17 @@ const SHORT_LABELS = {
   전월: '전월',
   '전년 동월': '전년동월',
   '동일 평수 평균': '평수평균',
-  '동일 평수+가구원수 평균': '평수+인원',
+  '동일 평수+동일 가구원수 평균': '평수+인원',
+}
+
+// 증감 문구: 내 과거 비교는 증가/감소, 이웃 평균 비교는 상회/하회
+function formatDiff(current, base, kind) {
+  const diff = current - base
+  if (diff === 0) return '동일'
+  const pct = base ? Math.abs((diff / base) * 100) : 0
+  const dir =
+    kind === 'peer' ? (diff > 0 ? '상회' : '하회') : diff > 0 ? '증가' : '감소'
+  return `${Math.abs(diff).toLocaleString()}원(${pct.toFixed(1)}%) ${dir}`
 }
 
 function getValue(period, field) {
@@ -104,18 +114,11 @@ export default function ComparisonChart({ title, thisMonth, comparisons, field =
         </BarChart>
       </div>
       <ul className="diff-list">
-        {validComparisons.map((c) => {
-          const diff = thisMonthValue - getValue(c.period, field)
-          const diffText =
-            diff === 0
-              ? '동일'
-              : `${diff > 0 ? '+' : ''}${diff.toLocaleString()}원 (${diff > 0 ? '증가' : '감소'})`
-          return (
-            <li key={c.label}>
-              {c.label} 대비 {diffText}
-            </li>
-          )
-        })}
+        {validComparisons.map((c) => (
+          <li key={c.label}>
+            {c.label} 대비 {formatDiff(thisMonthValue, getValue(c.period, field), c.kind)}
+          </li>
+        ))}
       </ul>
     </div>
   )

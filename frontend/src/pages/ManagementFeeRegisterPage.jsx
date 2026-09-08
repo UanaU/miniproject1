@@ -42,9 +42,9 @@ export default function ManagementFeeRegisterPage() {
         <h1>관리비 등록</h1>
       </header>
 
-      <p className="page-lead">
-        세대별 항목(전기세/수도세/가스비)만 입력하면, 단지 공통·동 공통 항목은
-        동일 청구년월의 다른 세대 값을 기준으로 자동 반영됩니다.
+      <p className="page-lead register-lead">
+        <span>세대별 항목(전기세/수도세/가스비)만 입력하면, 단지 공통·동 공통 항목은</span>{' '}
+        <span>동일 청구년월의 다른 세대 값을 기준으로 자동 반영됩니다.</span>
       </p>
 
       <div className="card">

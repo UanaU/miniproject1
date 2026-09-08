@@ -37,36 +37,32 @@
   gap: 20px;
 }
 
-.app-nav-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 500;
-  padding-bottom: 3px;
-  border-bottom: 2px solid transparent;
-}
-
-.app-nav-link:hover {
-  color: var(--text);
-}
-
+/* 모든 상단바 항목(링크·드롭다운 버튼·로그아웃)이 같은 높이·기준선에 놓이도록 통일 */
+.app-nav-link,
 .app-nav-link-button {
+  display: inline-flex;
+  align-items: center;
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
-  padding: 0 0 3px;
+  padding: 0 0 5px;
+  margin: 0;
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
+  line-height: 1;
   color: var(--text-muted);
+  text-decoration: none;
   cursor: pointer;
 }
 
+.app-nav-link:hover,
 .app-nav-link-button:hover {
   color: var(--text);
 }
 
-.app-nav-link.active {
+.app-nav-link.active,
+.app-nav-link-button.active {
   color: var(--primary);
   font-weight: 600;
   border-bottom-color: var(--accent);
@@ -74,13 +70,24 @@
 
 .app-nav-dropdown {
   position: relative;
-  padding: 8px 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 버튼과 메뉴 사이 hover 이동 시 메뉴가 닫히지 않도록 하는 투명 다리 */
+.app-nav-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 10px;
 }
 
 .app-nav-dropdown-menu {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
   background: var(--card-bg);
@@ -149,6 +156,17 @@
   line-height: 1.65;
 }
 
+/* 등록 안내: 한 줄 우선, 공간이 부족하면 '항목은'과 '동일' 사이에서만 줄바꿈 */
+.register-lead {
+  max-width: none;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.register-lead span {
+  white-space: nowrap;
+}
+
 .card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -181,11 +199,10 @@
 }
 
 .login-eyebrow {
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--accent-strong);
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   margin: 0 0 8px;
 }
 
@@ -234,6 +251,7 @@
   padding: 11px 18px;
   font-size: 1.05rem;
   font-weight: 600;
+  line-height: 1.2;
   text-decoration: none;
   display: inline-block;
   text-align: center;
@@ -407,8 +425,8 @@ button.secondary:hover {
 }
 
 .card-actions {
-  margin-top: 20px;
-  padding-top: 18px;
+  margin-top: 0;
+  padding-top: 13px;
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: flex-end;
@@ -608,8 +626,8 @@ button.secondary:hover {
 }
 
 div.fee-total.clickable-row {
-  padding: 10px 8px 14px;
-  margin: -10px -8px 14px;
+  padding: 12px 16px 14px;
+  margin: -12px -16px 14px;
 }
 
 .fee-layout {
