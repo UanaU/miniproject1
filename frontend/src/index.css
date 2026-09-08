@@ -1,32 +1,118 @@
 :root {
-  --bg: #f5f6fa;
+  /* --- palette (첨부 색상) --- */
+  --navy-900: #0b1b3a; /* 딥 네이비 */
+  --navy-700: #1e3a8a; /* 로열 블루 */
+  --peri-300: #a1b2d6; /* 페리윙클 */
+  --sand-100: #e7e2d9; /* 웜 아이보리 */
+  --gold-500: #b48a5a; /* 골드/탠 */
+
+  /* --- semantic --- */
+  --bg: #f4f2ec;              /* 페이지 배경: sand-100을 밝게 */
+  --bg-tint: #eef1f8;         /* 페리윙클 틴트 (선택/hover/알림) */
   --card-bg: #ffffff;
-  --text: #1f2430;
-  --text-muted: #6b7280;
-  --border: #e5e7eb;
-  --primary: #4f7cff;
-  --primary-dark: #3860e0;
-  --danger: #e0554f;
-  --warn-bg: #fff7e6;
-  --warn-text: #9a6700;
-  --chart-bar-color: #4f7cff;
-  --chart-bar-secondary: #f59e0b;
-  --chart-bar-tertiary: #10b981;
+  --text: #0b1b3a;           /* 본문: 딥 네이비 (대비 15:1+) */
+  --text-muted: #566079;     /* 보조 텍스트 (대비 5.6:1) */
+  --border: #ddd7ca;         /* 웜 그레이 보더 */
+  --border-strong: #c6bfae;
+
+  --primary: #1e3a8a;
+  --primary-dark: #0b1b3a;
+  --primary-soft: #a1b2d6;
+  --on-primary: #ffffff;
+
+  --accent: #b48a5a;
+  --accent-strong: #7a5a2e;  /* 흰 배경 위 골드 텍스트 (대비 5.3:1) */
+
+  --danger: #b0433d;
+  --warn-bg: #f5ecdd;
+  --warn-text: #7a5a2e;
+
+  --ring: 0 0 0 3px rgba(30, 58, 138, 0.28);
+  --shadow-sm: 0 1px 2px rgba(11, 27, 58, 0.05), 0 2px 6px rgba(11, 27, 58, 0.06);
+  --shadow-md: 0 10px 30px rgba(11, 27, 58, 0.14);
+
+  /* --- charts (네이비 계열 = 내 관리비, 골드 계열 = 이웃 평균) --- */
+  --chart-line: #1e3a8a;
+  --chart-bar-current: #1e3a8a;
+  --chart-bar-prev: #6b7fb8;
+  --chart-bar-lastyear: #a1b2d6;
+  --chart-bar-avg-size: #b48a5a;
+  --chart-bar-avg-house: #8a6a3d;
+  --chart-grid: #e6e2d8;
+
+  /* --- typography --- */
+  --font-sans: 'Pretendard', 'Pretendard Variable', -apple-system, BlinkMacSystemFont,
+    'Apple SD Gothic Neo', 'Segoe UI', 'Malgun Gothic', sans-serif;
+
   color-scheme: light;
+  font-synthesis: none;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+  /* 페이지마다 세로 스크롤바 유무가 달라 헤더 중앙 정렬이 어긋나는 것 방지 */
+  scrollbar-gutter: stable;
+}
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem; /* 17px */
+  line-height: 1.65;
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: 1rem;
 }
 
 button {
   cursor: pointer;
   font-family: inherit;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  color: var(--text);
+}
+
+a {
+  color: var(--primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: var(--primary);
+}
+
+::selection {
+  background: var(--primary-soft);
+  color: var(--navy-900);
 }
