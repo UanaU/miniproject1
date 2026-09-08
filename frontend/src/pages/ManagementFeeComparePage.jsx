@@ -7,6 +7,11 @@ function toYearMonth(inputValue) {
   return inputValue.replace('-', '') + '01'
 }
 
+const CATEGORIES = [
+  { key: 'mine', label: '내관리비에서 비교' },
+  { key: 'others', label: '다른세대와 비교' },
+]
+
 const FIELD_OPTIONS = [
   { key: '합계금액', label: '총관리비' },
   { key: '전기세', label: '전기세' },
@@ -14,17 +19,9 @@ const FIELD_OPTIONS = [
   { key: '가스비', label: '가스비' },
 ]
 
-// 당월과 함께 한 그래프에 표시할 4개 비교 기준 (summary 응답 키 → 막대 라벨)
-// kind: 'time' = 내 과거와 비교(증가/감소), 'peer' = 이웃 평균과 비교(상회/하회)
-const COMPARISON_DEFS = [
-  { key: '전월', label: '전월', kind: 'time' },
-  { key: '작년동월', label: '전년 동월', kind: 'time' },
-  { key: '같은평수평균', label: '동일 평수 평균', kind: 'peer' },
-  { key: '같은평수_가구원수평균', label: '동일 평수+동일 가구원수 평균', kind: 'peer' },
-]
-
 export default function ManagementFeeComparePage() {
   const [monthInput, setMonthInput] = useState('2026-09')
+  const [category, setCategory] = useState(CATEGORIES[0].key)
   const [summary, setSummary] = useState(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -56,10 +53,18 @@ export default function ManagementFeeComparePage() {
     }
   }, [yearMonth])
 
-  const 기준 = summary?.같은평수_가구원수평균?.기준
-  const comparisons = summary
-    ? COMPARISON_DEFS.map((d) => ({ label: d.label, kind: d.kind, period: summary[d.key] }))
-    : []
+  function getComparisons() {
+    if (category === 'mine') {
+      return [
+        { label: '전월', period: summary.전월 },
+        { label: '작년 동월', period: summary.작년동월 },
+      ]
+    }
+    return [
+      { label: '같은 평수', period: summary.같은평수평균 },
+      { label: '같은 평수+가구원수', period: summary.같은평수_가구원수평균 },
+    ]
+  }
 
   return (
     <div className="page">
@@ -76,29 +81,38 @@ export default function ManagementFeeComparePage() {
         />
       </label>
 
+      <div className="compare-tabs">
+        {CATEGORIES.map((c) => (
+          <button
+            key={c.key}
+            type="button"
+            className={'compare-tab' + (category === c.key ? ' active' : '')}
+            onClick={() => setCategory(c.key)}
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
+
       {loading && <p>불러오는 중...</p>}
       {error && !loading && <div className="no-data-notice">{error}</div>}
 
       {summary && !loading && !error && (
         <>
-          {기준 && (
+          {category === 'others' && (
             <p className="compare-note">
-              <span className="compare-note-label">이웃 비교 기준</span>
-              같은 평수 <b>{기준.평수}평</b>
-              <span aria-hidden="true">·</span>
-              가구원수 <b>{기준.가구원수}명</b>
-              세대의 평균과 비교합니다
+              같은 평수 {summary.같은평수_가구원수평균.기준?.평수}평 · 가구원수{' '}
+              {summary.같은평수_가구원수평균.기준?.가구원수}명 기준
             </p>
           )}
-
           <div className="chart-grid">
             {FIELD_OPTIONS.map((option) => (
               <ComparisonChart
                 key={option.key}
                 title={`${option.label} 비교`}
-                field={option.key}
                 thisMonth={summary.이번달}
-                comparisons={comparisons}
+                comparisons={getComparisons()}
+                field={option.key}
               />
             ))}
           </div>

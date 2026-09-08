@@ -24,7 +24,7 @@ export default function AppHeader() {
 
   return (
     <header className="app-header">
-      <span className="app-title">알뜰살뜰 관리비</span>
+      <span className="app-title">우리집 관리비 스마트 분석기</span>
       <nav className="app-nav">
         <NavLink
           to="/mypage"
@@ -41,7 +41,7 @@ export default function AppHeader() {
             내관리비
           </button>
           <div className="app-nav-dropdown-menu">
-            <NavLink to="/fees" end className="app-nav-dropdown-item">관리비 조회</NavLink>
+            <NavLink to="/fees" className="app-nav-dropdown-item">관리비 조회</NavLink>
             <NavLink to="/fees/register" className="app-nav-dropdown-item">관리비 등록</NavLink>
             <NavLink to="/fees/compare" className="app-nav-dropdown-item">관리비 비교</NavLink>
           </div>
