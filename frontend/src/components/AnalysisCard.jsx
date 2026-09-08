@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { postAiAnalysis } from '../api/analysis'
 import NoDataNotice from './NoDataNotice'
 
-const COMPARISON_KEYS = ['전월', '같은평수평균', '같은평수_가구원수평균']
+const COMPARISON_KEYS = ['전월', '작년동월', '같은평수평균', '같은평수_가구원수평균']
 
 function hasComparisonData(summary) {
   return COMPARISON_KEYS.some((key) => summary[key] && !summary[key].데이터없음)
@@ -20,6 +20,7 @@ export default function AnalysisCard({ summary }) {
       const payload = {
         이번달: summary.이번달,
         전월: summary.전월,
+        작년동월: summary.작년동월,
         같은평수평균: summary.같은평수평균,
         같은평수_가구원수평균: summary.같은평수_가구원수평균,
       }
