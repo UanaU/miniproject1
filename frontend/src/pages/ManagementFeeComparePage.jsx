@@ -27,7 +27,6 @@ const FIELD_OPTIONS = [
 export default function ManagementFeeComparePage() {
   const [monthInput, setMonthInput] = useState('2026-09')
   const [compareType, setCompareType] = useState(COMPARE_TYPES[0].key)
-  const [compareField, setCompareField] = useState(FIELD_OPTIONS[0].key)
   const [summary, setSummary] = useState(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -82,8 +81,6 @@ export default function ManagementFeeComparePage() {
     }
   }
 
-  const fieldLabel = FIELD_OPTIONS.find((f) => f.key === compareField)?.label
-
   return (
     <div className="page">
       <header className="page-header">
@@ -107,14 +104,6 @@ export default function ManagementFeeComparePage() {
             ))}
           </select>
         </label>
-        <label className="month-picker">
-          비교 대상
-          <select value={compareField} onChange={(e) => setCompareField(e.target.value)}>
-            {FIELD_OPTIONS.map((option) => (
-              <option key={option.key} value={option.key}>{option.label}</option>
-            ))}
-          </select>
-        </label>
       </div>
 
       {loading && <p>불러오는 중...</p>}
@@ -123,14 +112,17 @@ export default function ManagementFeeComparePage() {
       {summary && !loading && !error && (() => {
         const cfg = getComparisonConfig()
         return (
-          <div className="chart-grid single-chart">
-            <ComparisonChart
-              title={`${cfg.title} · ${fieldLabel}`}
-              comparisonLabel={cfg.comparisonLabel}
-              thisMonth={summary.이번달}
-              comparison={cfg.comparison}
-              field={compareField}
-            />
+          <div className="chart-grid">
+            {FIELD_OPTIONS.map((option) => (
+              <ComparisonChart
+                key={option.key}
+                title={`${cfg.title} · ${option.label}`}
+                comparisonLabel={cfg.comparisonLabel}
+                thisMonth={summary.이번달}
+                comparison={cfg.comparison}
+                field={option.key}
+              />
+            ))}
           </div>
         )
       })()}

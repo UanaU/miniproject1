@@ -333,10 +333,6 @@ button.secondary {
   margin-bottom: 0;
 }
 
-.chart-grid.single-chart {
-  grid-template-columns: minmax(0, 420px);
-}
-
 .fee-total {
   display: flex;
   justify-content: space-between;
