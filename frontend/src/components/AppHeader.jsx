@@ -24,7 +24,7 @@ export default function AppHeader() {
 
   return (
     <header className="app-header">
-      <span className="app-title">아파트 관리비 조회</span>
+      <span className="app-title">우리집 관리비 스마트 분석기</span>
       <nav className="app-nav">
         <NavLink
           to="/mypage"
