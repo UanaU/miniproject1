@@ -25,6 +25,14 @@
   font-size: 0.9rem;
 }
 
+.app-nav-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 .app-nav-link.active {
   color: var(--primary);
   font-weight: 600;
@@ -368,6 +376,48 @@ button.secondary {
   text-align: right;
   padding: 6px 0;
   font-weight: 600;
+}
+
+.value-with-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-icon-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.edit-icon-btn:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.inline-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inline-edit input {
+  width: 100px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.inline-edit button {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
 }
 
 .clickable-row {

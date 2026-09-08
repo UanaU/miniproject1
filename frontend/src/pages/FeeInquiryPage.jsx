@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { fetchHistory, fetchSummary } from '../api/fees'
+import { fetchHistory, fetchSummary, updateRecord } from '../api/fees'
 import FeeBreakdownTable from '../components/FeeBreakdownTable'
 import FeeHistoryChart from '../components/FeeHistoryChart'
 
@@ -61,6 +61,18 @@ export default function FeeInquiryPage() {
     }
   }, [])
 
+  async function handleUpdateField(field, value) {
+    const res = await updateRecord(yearMonth, { [field]: value })
+    setSummary((prev) => ({ ...prev, 이번달: res.data }))
+    setHistory((prev) =>
+      prev.map((row) =>
+        row.청구년월 === yearMonth
+          ? { ...row, 전기세: res.data.세대별.전기세, 수도세: res.data.세대별.수도세, 가스비: res.data.세대별.가스비, 합계금액: res.data.합계금액 }
+          : row
+      )
+    )
+  }
+
   return (
     <div className="page">
       <header className="page-header">
@@ -85,6 +97,7 @@ export default function FeeInquiryPage() {
             thisMonth={summary.이번달}
             selectedField={selectedField}
             onSelectField={setSelectedField}
+            onUpdateField={handleUpdateField}
           />
           <FeeHistoryChart
             title={selectedField}

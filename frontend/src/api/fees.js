@@ -11,3 +11,7 @@ export function fetchHistory() {
 export function registerFee(payload) {
   return client.post('/managementfee/register', payload)
 }
+
+export function updateRecord(yearMonth, payload) {
+  return client.patch('/managementfee/record', payload, { params: { year_month: yearMonth } })
+}

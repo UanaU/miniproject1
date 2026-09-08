@@ -1,7 +1,11 @@
-import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, Cell, Tooltip, XAxis, YAxis } from 'recharts'
 import NoDataNotice from './NoDataNotice'
 
-export default function ComparisonChart({ title, comparisonLabel, thisMonth, comparison }) {
+function getValue(period, field) {
+  return field === '합계금액' ? period.합계금액 : period.세대별?.[field]
+}
+
+export default function ComparisonChart({ title, comparisonLabel, thisMonth, comparison, field = '합계금액' }) {
   if (!comparison || comparison.데이터없음) {
     return (
       <div className="card chart-card">
@@ -11,12 +15,15 @@ export default function ComparisonChart({ title, comparisonLabel, thisMonth, com
     )
   }
 
+  const thisMonthValue = getValue(thisMonth, field)
+  const comparisonValue = getValue(comparison, field)
+
   const data = [
-    { name: '이번달', 합계금액: thisMonth.합계금액 },
-    { name: comparisonLabel, 합계금액: comparison.합계금액 },
+    { name: '이번달', value: thisMonthValue },
+    { name: comparisonLabel, value: comparisonValue },
   ]
 
-  const diff = thisMonth.합계금액 - comparison.합계금액
+  const diff = thisMonthValue - comparisonValue
   const diffText =
     diff === 0
       ? '동일'
@@ -30,7 +37,10 @@ export default function ComparisonChart({ title, comparisonLabel, thisMonth, com
         <XAxis dataKey="name" />
         <YAxis tickFormatter={(v) => `${Math.round(v / 1000)}천`} />
         <Tooltip formatter={(v) => `${v.toLocaleString()}원`} />
-        <Bar dataKey="합계금액" fill="var(--chart-bar-color, #4f7cff)" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+          <Cell fill="var(--chart-bar-color, #4f7cff)" />
+          <Cell fill="var(--chart-bar-secondary, #f59e0b)" />
+        </Bar>
       </BarChart>
       <p className="diff-text">{diffText}</p>
     </div>

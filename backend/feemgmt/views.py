@@ -7,9 +7,17 @@ from accounts.permissions import IsMemberAuthenticated
 from accounts.views import get_current_member
 
 from .models import ManagementFee
-from .services import _serialize_single, build_history, build_summary, derive_common_values
+from .services import (
+    _serialize_single,
+    build_history,
+    build_summary,
+    derive_common_values,
+    단지공통_FIELDS,
+    동공통_FIELDS,
+)
 
 YEAR_MONTH_RE = re.compile(r"^\d{8}$")
+EDITABLE_FIELDS = ["전기세", "수도세", "가스비"]
 
 
 class SummaryView(APIView):
@@ -72,3 +80,38 @@ class RegisterView(APIView):
             **동공통,
         )
         return Response(_serialize_single(fee), status=201)
+
+
+class RecordUpdateView(APIView):
+    permission_classes = [IsMemberAuthenticated]
+
+    def patch(self, request):
+        member = get_current_member(request)
+        year_month = request.query_params.get("year_month", "")
+        if not YEAR_MONTH_RE.match(year_month):
+            return Response({"detail": "year_month은 YYYYMMDD 형식이어야 합니다."}, status=400)
+
+        fee = ManagementFee.objects.filter(회원=member, 청구년월=year_month).first()
+        if fee is None:
+            return Response({"detail": "해당 월의 관리비 데이터가 없습니다."}, status=404)
+
+        data = request.data
+        touched_fields = [f for f in EDITABLE_FIELDS if f in data]
+        if not touched_fields:
+            return Response({"detail": "수정할 항목(전기세/수도세/가스비)이 없습니다."}, status=400)
+
+        try:
+            for field in touched_fields:
+                setattr(fee, field, int(data[field]))
+        except (ValueError, TypeError):
+            return Response({"detail": "값은 숫자로 입력해주세요."}, status=400)
+
+        fee.합계금액 = (
+            fee.전기세
+            + fee.수도세
+            + fee.가스비
+            + sum(getattr(fee, f) for f in 단지공통_FIELDS)
+            + sum(getattr(fee, f) for f in 동공통_FIELDS)
+        )
+        fee.save()
+        return Response(_serialize_single(fee))
