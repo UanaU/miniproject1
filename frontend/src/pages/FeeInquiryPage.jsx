@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { fetchHistory, fetchSummary } from '../api/fees'
 import FeeBreakdownTable from '../components/FeeBreakdownTable'
 import FeeHistoryChart from '../components/FeeHistoryChart'
-import AnalysisCard from '../components/AnalysisCard'
 
 function toYearMonth(inputValue) {
   return inputValue.replace('-', '') + '01'
@@ -17,6 +16,11 @@ export default function FeeInquiryPage() {
   const [loading, setLoading] = useState(false)
 
   const yearMonth = toYearMonth(monthInput)
+  const currentYear = monthInput.slice(0, 4)
+  const yearHistory = useMemo(
+    () => history.filter((row) => row.청구년월.slice(0, 4) === currentYear),
+    [history, currentYear]
+  )
 
   useEffect(() => {
     let cancelled = false
@@ -76,18 +80,19 @@ export default function FeeInquiryPage() {
       {error && !loading && <div className="no-data-notice">{error}</div>}
 
       {summary && !loading && !error && (
-        <>
-          <div className="fee-layout">
-            <FeeBreakdownTable
-              thisMonth={summary.이번달}
-              selectedField={selectedField}
-              onSelectField={setSelectedField}
-            />
-            <FeeHistoryChart title={selectedField} history={history} field={selectedField} />
-          </div>
-
-          <AnalysisCard yearMonth={yearMonth} />
-        </>
+        <div className="fee-layout">
+          <FeeBreakdownTable
+            thisMonth={summary.이번달}
+            selectedField={selectedField}
+            onSelectField={setSelectedField}
+          />
+          <FeeHistoryChart
+            title={selectedField}
+            year={currentYear}
+            history={yearHistory}
+            field={selectedField}
+          />
+        </div>
       )}
     </div>
   )

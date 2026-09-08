@@ -304,10 +304,29 @@ button.secondary {
   color: var(--text-muted);
 }
 
-.month-picker input {
+.month-picker input,
+.month-picker select {
   padding: 6px 10px;
   border-radius: 8px;
   border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.compare-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.compare-controls .month-picker {
+  margin-bottom: 0;
+}
+
+.chart-grid.single-chart {
+  grid-template-columns: minmax(0, 420px);
 }
 
 .fee-total {

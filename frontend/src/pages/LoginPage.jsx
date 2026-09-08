@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { fetchHistory } from '../api/fees'
 
 export default function LoginPage() {
   const [id, setId] = useState('')
@@ -16,9 +17,17 @@ export default function LoginPage() {
     setSubmitting(true)
     try {
       await login(id, password)
-      navigate('/mypage')
     } catch {
       setError('아이디 또는 비밀번호가 올바르지 않습니다.')
+      setSubmitting(false)
+      return
+    }
+
+    try {
+      const history = await fetchHistory()
+      navigate(history.data.length === 0 ? '/fees/register' : '/mypage')
+    } catch {
+      navigate('/mypage')
     } finally {
       setSubmitting(false)
     }

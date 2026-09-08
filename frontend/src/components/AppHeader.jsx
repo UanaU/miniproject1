@@ -25,7 +25,7 @@ export default function AppHeader() {
             to="/fees"
             className={({ isActive }) => 'app-nav-link' + (isActive ? ' active' : '')}
           >
-            관리비
+            내관리비
           </NavLink>
           <div className="app-nav-dropdown-menu">
             <NavLink to="/fees" className="app-nav-dropdown-item">관리비 조회</NavLink>

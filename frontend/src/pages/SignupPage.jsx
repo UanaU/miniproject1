@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const UNIT_SIZES = [18, 24, 32, 38, 45, 52]
+const BUILDINGS = Array.from({ length: 15 }, (_, i) => 101 + i)
 
 const initialForm = {
   회원id: '',
@@ -64,7 +65,12 @@ export default function SignupPage() {
           <div className="form-row">
             <label>
               아파트동
-              <input type="number" value={form.아파트동} onChange={handleChange('아파트동')} required />
+              <select value={form.아파트동} onChange={handleChange('아파트동')} required>
+                <option value="" disabled>선택</option>
+                {BUILDINGS.map((building) => (
+                  <option key={building} value={building}>{building}동</option>
+                ))}
+              </select>
             </label>
             <label>
               호수

@@ -1,17 +1,17 @@
 import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 
-function toLabel(yearMonth) {
-  return `${yearMonth.slice(0, 4)}-${yearMonth.slice(4, 6)}`
+function toMonthLabel(yearMonth) {
+  return `${parseInt(yearMonth.slice(4, 6), 10)}월`
 }
 
-export default function FeeHistoryChart({ title, history, field }) {
-  const data = history.map((row) => ({ name: toLabel(row.청구년월), value: row[field] }))
+export default function FeeHistoryChart({ title, year, history, field }) {
+  const data = history.map((row) => ({ name: toMonthLabel(row.청구년월), value: row[field] }))
 
   return (
     <div className="card chart-card history-chart-card">
-      <h3>{title} 추이 (전체 기간)</h3>
+      <h3>{title} 추이 ({year}년)</h3>
       {data.length <= 1 ? (
-        <div className="no-data-notice">추이를 표시할 데이터가 부족합니다.</div>
+        <div className="no-data-notice">{year}년에는 추이를 표시할 데이터가 부족합니다.</div>
       ) : (
         <LineChart width={420} height={280} data={data} margin={{ top: 8, right: 16, left: 8, bottom: 8 }}>
           <CartesianGrid strokeDasharray="3 3" />
