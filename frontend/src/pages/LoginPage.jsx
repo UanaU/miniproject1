@@ -27,7 +27,7 @@ export default function LoginPage() {
   return (
     <div className="page login-page">
       <div className="login-card">
-        <h1>아파트 관리비 조회</h1>
+        <h1>우리집 관리비 스마트 분석기</h1>
         <form onSubmit={handleSubmit}>
           <label>
             아이디
