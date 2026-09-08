@@ -30,6 +30,51 @@
   font-weight: 600;
 }
 
+.app-nav-dropdown {
+  position: relative;
+  padding: 8px 0;
+}
+
+.app-nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px;
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.app-nav-dropdown:hover .app-nav-dropdown-menu,
+.app-nav-dropdown:focus-within .app-nav-dropdown-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-nav-dropdown-item {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.app-nav-dropdown-item:hover {
+  background: var(--bg);
+}
+
+.app-nav-dropdown-item.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
 .page {
   max-width: 960px;
   margin: 0 auto;
@@ -93,11 +138,15 @@
   color: var(--text-muted);
 }
 
-.login-card input {
+.login-card input,
+.login-card select {
   padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid var(--border);
   font-size: 1rem;
+  background: var(--card-bg);
+  color: var(--text);
+  width: 100%;
 }
 
 .login-card button,
@@ -155,8 +204,18 @@ button.secondary {
 
 .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 12px;
+  min-width: 0;
+}
+
+.form-row label {
+  min-width: 0;
+}
+
+.form-row input {
+  width: 100%;
+  min-width: 0;
 }
 
 .edit-form {
@@ -183,6 +242,21 @@ button.secondary {
 .form-actions {
   display: flex;
   gap: 10px;
+}
+
+.checkbox-row {
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.checkbox-row input {
+  width: auto !important;
+}
+
+.register-hint {
+  margin-top: 0;
+  margin-bottom: 16px;
 }
 
 .edit-link {
@@ -275,6 +349,45 @@ button.secondary {
   text-align: right;
   padding: 6px 0;
   font-weight: 600;
+}
+
+.clickable-row {
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.clickable-row:hover {
+  background: var(--bg);
+}
+
+.clickable-row.selected th,
+.clickable-row.selected td,
+.clickable-row.selected span {
+  color: var(--primary);
+}
+
+div.fee-total.clickable-row {
+  padding: 8px 8px 12px;
+  margin: -8px -8px 12px;
+}
+
+.fee-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .fee-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.history-chart-card {
+  position: sticky;
+  top: 16px;
 }
 
 .chart-grid {

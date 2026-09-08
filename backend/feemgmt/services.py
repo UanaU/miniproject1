@@ -86,3 +86,51 @@ def build_summary(member, year_month: str) -> dict:
         ),
         "작년동월": _serialize_single(last_year) if last_year else _no_data(last_year_ym),
     }
+
+
+def build_history(member) -> list[dict]:
+    """해당 회원의 전체 보유 개월 관리비 내역을 청구년월 오름차순으로 반환."""
+    records = ManagementFee.objects.filter(회원=member).order_by("청구년월")
+    return [
+        {
+            "청구년월": r.청구년월,
+            "합계금액": r.합계금액,
+            "전기세": r.전기세,
+            "수도세": r.수도세,
+            "가스비": r.가스비,
+        }
+        for r in records
+    ]
+
+
+def derive_common_values(member, year_month: str) -> tuple[dict, dict]:
+    """새로 등록할 레코드의 단지공통/동공통 항목값을 기존 데이터에서 유추한다.
+
+    단지공통은 같은 청구년월의 다른 세대 값을 그대로 쓰고(없으면 가장 최근 값),
+    동공통은 같은 동의 같은 청구년월 값을 쓰고(없으면 같은 동의 가장 최근 값) 사용한다.
+    """
+    complex_source = ManagementFee.objects.filter(청구년월=year_month).first()
+    if complex_source is None:
+        complex_source = ManagementFee.objects.order_by("-청구년월").first()
+    단지공통 = (
+        {f: getattr(complex_source, f) for f in 단지공통_FIELDS}
+        if complex_source
+        else {f: 0 for f in 단지공통_FIELDS}
+    )
+
+    building_source = ManagementFee.objects.filter(
+        청구년월=year_month, 회원__아파트동=member.아파트동
+    ).first()
+    if building_source is None:
+        building_source = (
+            ManagementFee.objects.filter(회원__아파트동=member.아파트동)
+            .order_by("-청구년월")
+            .first()
+        )
+    동공통 = (
+        {f: getattr(building_source, f) for f in 동공통_FIELDS}
+        if building_source
+        else {f: 0 for f in 동공통_FIELDS}
+    )
+
+    return 단지공통, 동공통

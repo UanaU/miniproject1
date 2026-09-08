@@ -82,7 +82,6 @@ class SignupView(APIView):
         except (ValueError, TypeError):
             return Response({"detail": "입력값 형식이 올바르지 않습니다."}, status=400)
 
-        request.session["member_id"] = member.회원_index
         return Response(MemberSerializer(member).data, status=201)
 
 

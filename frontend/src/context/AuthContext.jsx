@@ -33,8 +33,7 @@ export function AuthProvider({ children }) {
   }
 
   async function signup(payload) {
-    const res = await authApi.signup(payload)
-    setMember(res.data)
+    await authApi.signup(payload)
   }
 
   async function updateProfile(payload) {

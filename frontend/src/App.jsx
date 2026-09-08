@@ -6,6 +6,8 @@ import SignupPage from './pages/SignupPage'
 import MyPage from './pages/MyPage'
 import MyPageEdit from './pages/MyPageEdit'
 import FeeInquiryPage from './pages/FeeInquiryPage'
+import ManagementFeeRegisterPage from './pages/ManagementFeeRegisterPage'
+import ManagementFeeComparePage from './pages/ManagementFeeComparePage'
 import './App.css'
 
 function ProtectedRoute({ children }) {
@@ -54,6 +56,22 @@ export default function App() {
         element={
           <ProtectedRoute>
             <FeeInquiryPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/fees/register"
+        element={
+          <ProtectedRoute>
+            <ManagementFeeRegisterPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/fees/compare"
+        element={
+          <ProtectedRoute>
+            <ManagementFeeComparePage />
           </ProtectedRoute>
         }
       />
