@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 const GROUPS = [
-  { key: '세대별', label: '세대별 항목', clickable: true, editable: true },
-  { key: '단지공통', label: '단지 공통 항목', clickable: false, editable: false },
-  { key: '동공통', label: '동 공통 항목', clickable: false, editable: false },
+  { key: '세대별', label: '세대별 항목 (평수·가구원수에 따라 다름)', clickable: true, editable: true },
+  { key: '단지공통', label: '단지 공통 항목 (전 세대 동일)', clickable: false, editable: false },
+  { key: '동공통', label: '동 공통 항목 (같은 동끼리 동일)', clickable: false, editable: false },
 ]
 
 export default function FeeBreakdownTable({ thisMonth, selectedField, onSelectField, onUpdateField }) {
@@ -40,7 +40,7 @@ export default function FeeBreakdownTable({ thisMonth, selectedField, onSelectFi
         className={'fee-total clickable-row' + (selectedField === '합계금액' ? ' selected' : '')}
         onClick={() => onSelectField?.('합계금액')}
       >
-        <span>총 관리비</span>
+        <span>합계금액</span>
         <strong>{thisMonth.합계금액.toLocaleString()}원</strong>
       </div>
       {GROUPS.map((group) => (
