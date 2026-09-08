@@ -27,7 +27,8 @@ export default function LoginPage() {
   return (
     <div className="page login-page">
       <div className="login-card">
-        <h1>우리집 관리비 스마트 분석기</h1>
+        <p className="login-eyebrow">관리비 스마트 분석 서비스</p>
+        <h1>알뜰살뜰 관리비</h1>
         <form onSubmit={handleSubmit}>
           <label>
             아이디
@@ -49,7 +50,6 @@ export default function LoginPage() {
           </button>
         </form>
         <Link to="/signup" className="signup-link">회원가입</Link>
-        <p className="hint">테스트 계정: user0001~user1000 / pw10001~pw11000</p>
       </div>
     </div>
   )
