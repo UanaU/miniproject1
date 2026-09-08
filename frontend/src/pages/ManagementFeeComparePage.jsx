@@ -7,15 +7,9 @@ function toYearMonth(inputValue) {
   return inputValue.replace('-', '') + '01'
 }
 
-function toInputValue(yearMonth) {
-  return `${yearMonth.slice(0, 4)}-${yearMonth.slice(4, 6)}`
-}
-
-const COMPARE_TYPES = [
-  { key: 'prev', label: '전월 비교' },
-  { key: 'lastYear', label: '작년 동월 비교' },
-  { key: 'sameSize', label: '같은 평수 비교' },
-  { key: 'sameSizeHousehold', label: '같은 평수+가구원수 비교' },
+const CATEGORIES = [
+  { key: 'mine', label: '내관리비에서 비교' },
+  { key: 'others', label: '다른세대와 비교' },
 ]
 
 const FIELD_OPTIONS = [
@@ -27,7 +21,7 @@ const FIELD_OPTIONS = [
 
 export default function ManagementFeeComparePage() {
   const [monthInput, setMonthInput] = useState('2026-09')
-  const [compareType, setCompareType] = useState(COMPARE_TYPES[0].key)
+  const [category, setCategory] = useState(CATEGORIES[0].key)
   const [summary, setSummary] = useState(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -59,27 +53,17 @@ export default function ManagementFeeComparePage() {
     }
   }, [yearMonth])
 
-  function getComparisonConfig() {
-    switch (compareType) {
-      case 'prev':
-        return {
-          title: '전월 비교',
-          comparisonLabel: toInputValue(summary.전월.청구년월 ?? yearMonth),
-          comparison: summary.전월,
-        }
-      case 'lastYear':
-        return { title: '작년 동월 비교', comparisonLabel: '작년 동월', comparison: summary.작년동월 }
-      case 'sameSize':
-        return { title: '같은 평수 비교', comparisonLabel: '같은 평수 평균', comparison: summary.같은평수평균 }
-      case 'sameSizeHousehold':
-        return {
-          title: `같은 평수(${summary.같은평수_가구원수평균.기준?.평수}평)+가구원수(${summary.같은평수_가구원수평균.기준?.가구원수}명) 비교`,
-          comparisonLabel: '같은 조건 평균',
-          comparison: summary.같은평수_가구원수평균,
-        }
-      default:
-        return null
+  function getComparisons() {
+    if (category === 'mine') {
+      return [
+        { label: '전월', period: summary.전월 },
+        { label: '작년 동월', period: summary.작년동월 },
+      ]
     }
+    return [
+      { label: '같은 평수', period: summary.같은평수평균 },
+      { label: '같은 평수+가구원수', period: summary.같은평수_가구원수평균 },
+    ]
   }
 
   return (
@@ -88,47 +72,54 @@ export default function ManagementFeeComparePage() {
         <h1>관리비 비교</h1>
       </header>
 
-      <div className="compare-controls">
-        <label className="month-picker">
-          청구년월
-          <input
-            type="month"
-            value={monthInput}
-            onChange={(e) => setMonthInput(e.target.value)}
-          />
-        </label>
-        <label className="month-picker">
-          비교 항목
-          <select value={compareType} onChange={(e) => setCompareType(e.target.value)}>
-            {COMPARE_TYPES.map((option) => (
-              <option key={option.key} value={option.key}>{option.label}</option>
-            ))}
-          </select>
-        </label>
+      <label className="month-picker">
+        청구년월
+        <input
+          type="month"
+          value={monthInput}
+          onChange={(e) => setMonthInput(e.target.value)}
+        />
+      </label>
+
+      <div className="compare-tabs">
+        {CATEGORIES.map((c) => (
+          <button
+            key={c.key}
+            type="button"
+            className={'compare-tab' + (category === c.key ? ' active' : '')}
+            onClick={() => setCategory(c.key)}
+          >
+            {c.label}
+          </button>
+        ))}
       </div>
 
       {loading && <p>불러오는 중...</p>}
       {error && !loading && <div className="no-data-notice">{error}</div>}
 
-      {summary && !loading && !error && (() => {
-        const cfg = getComparisonConfig()
-        return (
+      {summary && !loading && !error && (
+        <>
+          {category === 'others' && (
+            <p className="compare-note">
+              같은 평수 {summary.같은평수_가구원수평균.기준?.평수}평 · 가구원수{' '}
+              {summary.같은평수_가구원수평균.기준?.가구원수}명 기준
+            </p>
+          )}
           <div className="chart-grid">
             {FIELD_OPTIONS.map((option) => (
               <ComparisonChart
                 key={option.key}
-                title={`${cfg.title} · ${option.label}`}
-                comparisonLabel={cfg.comparisonLabel}
+                title={`${option.label} 비교`}
                 thisMonth={summary.이번달}
-                comparison={cfg.comparison}
+                comparisons={getComparisons()}
                 field={option.key}
               />
             ))}
           </div>
-        )
-      })()}
 
-      {summary && !loading && !error && <AnalysisCard summary={summary} />}
+          <AnalysisCard summary={summary} />
+        </>
+      )}
     </div>
   )
 }
