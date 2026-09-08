@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
+const UNIT_SIZES = [18, 24, 32, 38, 45, 52]
+const BUILDINGS = Array.from({ length: 15 }, (_, i) => 101 + i)
+
 export default function MyPageEdit() {
   const { member, updateProfile } = useAuth()
   const navigate = useNavigate()
@@ -53,7 +56,12 @@ export default function MyPageEdit() {
           <div className="form-row">
             <label>
               아파트동
-              <input type="number" value={form.아파트동} onChange={handleChange('아파트동')} required />
+              <select value={form.아파트동} onChange={handleChange('아파트동')} required>
+                <option value="" disabled>선택</option>
+                {BUILDINGS.map((building) => (
+                  <option key={building} value={building}>{building}동</option>
+                ))}
+              </select>
             </label>
             <label>
               호수
@@ -63,7 +71,12 @@ export default function MyPageEdit() {
           <div className="form-row">
             <label>
               평수
-              <input type="number" value={form.아파트평수} onChange={handleChange('아파트평수')} required />
+              <select value={form.아파트평수} onChange={handleChange('아파트평수')} required>
+                <option value="" disabled>선택</option>
+                {UNIT_SIZES.map((size) => (
+                  <option key={size} value={size}>{size}평</option>
+                ))}
+              </select>
             </label>
             <label>
               가구원수

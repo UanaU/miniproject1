@@ -1,60 +1,101 @@
+/* ============================================================
+   전역 레이아웃 · 헤더
+   모든 페이지가 동일한 헤더 + .page 컨테이너 위에 얹힌다.
+   본문 기본 크기는 index.css(17px)에서 관리하고, 여기서는 상대값만 사용.
+   ============================================================ */
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   max-width: 960px;
   margin: 0 auto;
-  padding: 16px 20px;
+  padding: 18px 20px;
   border-bottom: 1px solid var(--border);
 }
 
 .app-title {
-  font-weight: 700;
-  font-size: 1rem;
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.app-title::before {
+  content: '';
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  background: var(--accent);
 }
 
 .app-nav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
-.app-nav-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
+/* 모든 상단바 항목(링크·드롭다운 버튼·로그아웃)이 같은 높이·기준선에 놓이도록 통일 */
+.app-nav-link,
 .app-nav-link-button {
+  display: inline-flex;
+  align-items: center;
   background: none;
   border: none;
-  padding: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0 0 5px;
+  margin: 0;
   font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-muted);
+  text-decoration: none;
   cursor: pointer;
 }
 
-.app-nav-link.active {
+.app-nav-link:hover,
+.app-nav-link-button:hover {
+  color: var(--text);
+}
+
+.app-nav-link.active,
+.app-nav-link-button.active {
   color: var(--primary);
   font-weight: 600;
+  border-bottom-color: var(--accent);
 }
 
 .app-nav-dropdown {
   position: relative;
-  padding: 8px 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 버튼과 메뉴 사이 hover 이동 시 메뉴가 닫히지 않도록 하는 투명 다리 */
+.app-nav-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 10px;
 }
 
 .app-nav-dropdown-menu {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 6px;
-  min-width: 120px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  min-width: 150px;
+  box-shadow: var(--shadow-md);
   z-index: 10;
 }
 
@@ -66,16 +107,17 @@
 
 .app-nav-dropdown-item {
   display: block;
-  padding: 8px 10px;
+  padding: 9px 11px;
   border-radius: 6px;
   color: var(--text);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.975rem;
+  font-weight: 500;
   white-space: nowrap;
 }
 
 .app-nav-dropdown-item:hover {
-  background: var(--bg);
+  background: var(--bg-tint);
 }
 
 .app-nav-dropdown-item.active {
@@ -86,72 +128,114 @@
 .page {
   max-width: 960px;
   margin: 0 auto;
-  padding: 24px 20px 64px;
+  padding: 28px 20px 64px;
 }
 
 .page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .page-header h1 {
-  font-size: 1.5rem;
+  font-size: 1.95rem;
+  font-weight: 800;
   margin: 0;
+  color: var(--text);
+  letter-spacing: -0.025em;
+  padding-left: 13px;
+  border-left: 5px solid var(--primary);
+}
+
+.page-lead {
+  margin: -4px 0 22px;
+  max-width: 62ch;
+  color: var(--text-muted);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+/* 등록 안내: 한 줄 우선, 공간이 부족하면 '항목은'과 '동일' 사이에서만 줄바꿈 */
+.register-lead {
+  max-width: none;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.register-lead span {
+  white-space: nowrap;
 }
 
 .card {
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 20px;
+  padding: 22px;
   margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
 }
 
-/* Login */
+/* ============================================================
+   로그인 · 회원가입
+   ============================================================ */
 .login-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+  background: var(--bg);
 }
 
 .login-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 36px;
-  width: 320px;
+  padding: 38px 34px;
+  width: 360px;
   text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.login-eyebrow {
+  font-size: 0.95rem;
+  color: var(--accent-strong);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0 0 8px;
 }
 
 .login-card h1 {
-  font-size: 1.25rem;
-  margin-bottom: 24px;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--navy-900);
+  margin: 0 0 26px;
 }
 
 .login-card form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 15px;
   text-align: left;
 }
 
 .login-card label {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 0.85rem;
+  gap: 7px;
+  font-size: 0.95rem;
   color: var(--text-muted);
+  font-weight: 500;
 }
 
 .login-card input,
 .login-card select {
-  padding: 10px 12px;
+  padding: 11px 13px;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  font-size: 1rem;
+  border: 1px solid var(--border-strong);
+  font-size: 1.0625rem;
   background: var(--card-bg);
   color: var(--text);
   width: 100%;
@@ -161,15 +245,17 @@
 .card button,
 .primary-link {
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   border: none;
   border-radius: 8px;
-  padding: 10px 16px;
-  font-size: 0.95rem;
+  padding: 11px 18px;
+  font-size: 1.05rem;
   font-weight: 600;
+  line-height: 1.2;
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  transition: background 0.15s ease;
 }
 
 .login-card button:hover,
@@ -179,35 +265,52 @@
 }
 
 .login-card button:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
 button.secondary {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--primary);
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
-  padding: 8px 14px;
+  padding: 9px 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+button.secondary:hover {
+  border-color: var(--primary);
+  background: var(--bg-tint);
 }
 
 .secondary-link {
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 1rem;
+}
+
+.secondary-link:hover {
+  color: var(--primary);
 }
 
 .signup-link {
   display: block;
-  margin-top: 16px;
+  margin-top: 18px;
   color: var(--primary);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   text-align: center;
+  font-weight: 600;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
 }
 
 .signup-card {
-  width: 380px;
+  width: 420px;
 }
 
 .form-row {
@@ -221,7 +324,8 @@ button.secondary {
   min-width: 0;
 }
 
-.form-row input {
+.form-row input,
+.form-row select {
   width: 100%;
   min-width: 0;
 }
@@ -229,22 +333,39 @@ button.secondary {
 .edit-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 15px;
 }
 
 .edit-form label {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 0.85rem;
+  gap: 7px;
+  font-size: 0.95rem;
   color: var(--text-muted);
+  font-weight: 500;
 }
 
-.edit-form input {
-  padding: 10px 12px;
+.edit-form input,
+.edit-form select {
+  padding: 11px 13px;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  font-size: 1rem;
+  border: 1px solid var(--border-strong);
+  font-size: 1.0625rem;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+/* 입력 포커스 (전 페이지 공통) */
+.login-card input:focus,
+.login-card select:focus,
+.edit-form input:focus,
+.edit-form select:focus,
+.month-picker input:focus,
+.month-picker select:focus,
+.inline-edit input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--ring);
 }
 
 .form-actions {
@@ -256,70 +377,82 @@ button.secondary {
   flex-direction: row !important;
   align-items: center !important;
   gap: 8px !important;
+  color: var(--text) !important;
+  font-size: 1rem !important;
 }
 
 .checkbox-row input {
   width: auto !important;
 }
 
-.register-hint {
-  margin-top: 0;
-  margin-bottom: 16px;
-}
-
-.edit-link {
-  display: inline-block;
-  margin-top: 16px;
-}
-
-.hint {
-  margin-top: 18px;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
 .error-text {
   color: var(--danger);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   margin: 0;
+  font-weight: 500;
 }
 
-/* MyPage */
+/* ============================================================
+   마이페이지
+   ============================================================ */
 .info-grid {
   display: grid;
-  grid-template-columns: 100px 1fr;
-  row-gap: 12px;
+  grid-template-columns: 108px 1fr;
+  row-gap: 0;
   margin: 0;
 }
 
 .info-grid dt {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 13px 0;
+  border-top: 1px solid var(--border);
+}
+
+.info-grid dt:first-of-type,
+.info-grid dt:first-of-type + dd {
+  border-top: none;
 }
 
 .info-grid dd {
   margin: 0;
+  font-size: 1.0625rem;
   font-weight: 600;
+  color: var(--text);
+  padding: 13px 0;
+  border-top: 1px solid var(--border);
 }
 
-/* Fee inquiry */
+.card-actions {
+  margin-top: 0;
+  padding-top: 13px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ============================================================
+   관리비 조회 · 비교 공통
+   ============================================================ */
 .month-picker {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
+  gap: 12px;
+  margin-bottom: 22px;
+  font-size: 1.05rem;
   color: var(--text-muted);
+  font-weight: 600;
 }
 
 .month-picker input,
 .month-picker select {
-  padding: 6px 10px;
+  padding: 9px 12px;
   border-radius: 8px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   background: var(--card-bg);
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 1.0625rem;
 }
 
 .compare-tabs {
@@ -330,10 +463,10 @@ button.secondary {
 
 .compare-tab {
   background: var(--card-bg);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
   padding: 10px 16px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-muted);
 }
@@ -341,75 +474,111 @@ button.secondary {
 .compare-tab.active {
   border-color: var(--primary);
   color: var(--primary);
-  background: color-mix(in srgb, var(--primary) 8%, var(--card-bg));
+  background: var(--bg-tint);
 }
 
 .compare-note {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin: 0 0 20px;
+  padding: 13px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
   color: var(--text-muted);
-  font-size: 0.85rem;
-  margin: 0 0 16px;
+  font-size: 1.0625rem;
+}
+
+.compare-note-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  background: var(--warn-bg);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.compare-note b {
+  color: var(--navy-900);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .fee-total {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding-bottom: 12px;
-  margin-bottom: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
   border-bottom: 1px solid var(--border);
-  font-size: 1.1rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--navy-900);
 }
 
 .fee-total strong {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--navy-900);
 }
 
 .fee-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 16px;
-  font-size: 0.9rem;
+  margin-bottom: 18px;
+  font-size: 1.0625rem;
 }
 
 .fee-table caption {
   text-align: left;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+  padding-left: 9px;
+  border-left: 3px solid var(--accent);
 }
 
 .fee-table th {
   text-align: left;
   font-weight: 400;
   color: var(--text-muted);
-  padding: 6px 0;
+  padding: 9px 0;
 }
 
 .fee-table td {
   text-align: right;
-  padding: 6px 0;
+  padding: 9px 0;
   font-weight: 600;
+  color: var(--text);
 }
 
 .value-with-edit {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .edit-icon-btn {
   background: transparent;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
-  padding: 2px 8px;
-  font-size: 0.75rem;
-  font-weight: 400;
+  padding: 4px 11px;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: var(--text-muted);
 }
 
 .edit-icon-btn:hover {
   color: var(--primary);
   border-color: var(--primary);
+  background: var(--bg-tint);
 }
 
 .inline-edit {
@@ -419,17 +588,19 @@ button.secondary {
 }
 
 .inline-edit input {
-  width: 100px;
-  padding: 4px 8px;
+  width: 110px;
+  padding: 5px 9px;
   border-radius: 6px;
-  border: 1px solid var(--border);
-  font-size: 0.9rem;
+  border: 1px solid var(--border-strong);
+  font-size: 1rem;
   text-align: right;
+  background: var(--card-bg);
+  color: var(--text);
 }
 
 .inline-edit button {
-  padding: 4px 10px;
-  font-size: 0.8rem;
+  padding: 5px 11px;
+  font-size: 0.9rem;
   border-radius: 6px;
 }
 
@@ -440,18 +611,23 @@ button.secondary {
 }
 
 .clickable-row:hover {
-  background: var(--bg);
+  background: var(--bg-tint);
+}
+
+.clickable-row.selected {
+  background: var(--bg-tint);
 }
 
 .clickable-row.selected th,
 .clickable-row.selected td,
-.clickable-row.selected span {
+.clickable-row.selected span,
+.clickable-row.selected strong {
   color: var(--primary);
 }
 
 div.fee-total.clickable-row {
-  padding: 8px 8px 12px;
-  margin: -8px -8px 12px;
+  padding: 12px 16px 14px;
+  margin: -12px -16px 14px;
 }
 
 .fee-layout {
@@ -472,57 +648,175 @@ div.fee-total.clickable-row {
   top: 16px;
 }
 
+/* ============================================================
+   차트 카드
+   ============================================================ */
 .chart-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 16px;
 }
 
+.chart-canvas {
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
 .chart-card h3 {
-  font-size: 0.95rem;
+  font-size: 1.15rem;
+  font-weight: 700;
   margin: 0 0 12px;
+  color: var(--text);
 }
 
 .diff-list {
   list-style: none;
-  padding: 0;
-  margin: 8px 0 0;
+  padding: 14px 0 0;
+  margin: 10px 0 0;
+  border-top: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.98rem;
   color: var(--text-muted);
 }
 
 .no-data-notice {
-  background: #f0f1f5;
+  background: var(--bg-tint);
   color: var(--text-muted);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 24px 12px;
+  padding: 26px 12px;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
 }
 
-/* Analysis */
+/* ============================================================
+   AI 관리비 진단서
+   ============================================================ */
 .analysis-card h3 {
   margin-top: 0;
+}
+
+.diagnosis-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.diagnosis-head h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--navy-900);
+}
+
+.diagnosis-issued {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.diagnosis-intro,
+.diagnosis-muted {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin: 0 0 14px;
+}
+
+.diagnosis-muted {
+  margin: 0;
+}
+
+.diagnosis-section {
+  margin-bottom: 20px;
+}
+
+.diagnosis-section h4 {
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  color: var(--accent-strong);
+  margin: 0 0 9px;
+  text-transform: uppercase;
+}
+
+.diagnosis-summary {
+  margin: 0;
+  line-height: 1.75;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.analysis-reasons {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.analysis-reasons li {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 5px 10px;
+  padding: 12px 14px;
+  background: var(--bg-tint);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+  font-size: 1.02rem;
+}
+
+.reason-tag {
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.reason-delta {
+  justify-self: end;
+  font-variant-numeric: tabular-nums;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.reason-desc {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.tips-list {
+  padding-left: 22px;
+  line-height: 1.85;
+  margin: 0;
+  color: var(--text);
+}
+
+.tips-list li::marker {
+  color: var(--accent);
+}
+
+.diagnosis-body > .secondary {
+  margin-top: 6px;
+}
+
+.analysis-text {
+  line-height: 1.65;
 }
 
 .fallback-banner {
   background: var(--warn-bg);
   color: var(--warn-text);
+  border: 1px solid #e6d5b8;
   border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 0.85rem;
+  padding: 12px 14px;
+  font-size: 1rem;
   margin-bottom: 12px;
-}
-
-.analysis-text {
-  line-height: 1.6;
-}
-
-.tips-list {
-  padding-left: 20px;
-  line-height: 1.8;
 }
