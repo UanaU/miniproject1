@@ -1,4 +1,5 @@
 venv/
+.vite/
 __pycache__/
 *.pyc
 .env

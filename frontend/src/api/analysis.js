@@ -1,5 +1,5 @@
 import client from './client'
 
-export function fetchAnalysis(yearMonth) {
-  return client.get('/managementfee/analysis', { params: { year_month: yearMonth } })
+export function postAiAnalysis(payload) {
+  return client.post('/managementfee/ai-analysis', payload)
 }
