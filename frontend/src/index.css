@@ -1,3 +1,19 @@
+/* 웹사이트명 전용 (돌봄체) */
+@font-face {
+  font-family: 'CulturalHeritageCare';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/Dolbomche_R.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
+/* 그 외 모든 텍스트 (원스토어 모바일 고딕 타이틀) */
+@font-face {
+  font-family: 'OneStoreMobileGothicTitleFont';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Title.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
 :root {
   /* --- palette (첨부 색상) --- */
   --navy-900: #0b1b3a; /* 딥 네이비 */
@@ -41,8 +57,9 @@
   --chart-grid: #e6e2d8;
 
   /* --- typography --- */
-  --font-sans: 'Pretendard', 'Pretendard Variable', -apple-system, BlinkMacSystemFont,
+  --font-sans: 'OneStoreMobileGothicTitleFont', 'Pretendard', -apple-system, BlinkMacSystemFont,
     'Apple SD Gothic Neo', 'Segoe UI', 'Malgun Gothic', sans-serif;
+  --font-brand: 'CulturalHeritageCare', var(--font-sans);
 
   color-scheme: light;
   font-synthesis: none;
